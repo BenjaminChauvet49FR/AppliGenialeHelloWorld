@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.login;
         pseudonymTextView = binding.pseudonym;
         final ProgressBar loadingProgressBar = binding.loading;
+        DatabaseHelper dbh= new DatabaseHelper(getApplicationContext());
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -77,6 +78,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    String user = usernameEditText.getText().toString();
+                    String pw = passwordEditText.getText().toString();
+                    if (!dbh.existsPseudo(user)) {
+                        if(dbh.InsertUser(new AppUser(user, pw, 94)))
+                            Toast.makeText(getApplicationContext(),"Record inserted successfully",Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(),"Record not inserted",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Le pseudonyme " + user + " existe déjà, bienvenue (mdp non testé, tiens) ", Toast.LENGTH_LONG).show();
+                    }
                 }
                 //setResult(Activity.RESULT_OK);
 
