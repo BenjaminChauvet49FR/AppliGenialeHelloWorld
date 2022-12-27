@@ -30,6 +30,7 @@ import com.example.nospetitessortieshelloworld.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private TextView pseudonymTextView;
     private ActivityLoginBinding binding;
 
     @Override
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
+        pseudonymTextView = binding.pseudonym;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -125,9 +127,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        //String welcome = getString(R.string.welcome) + model.getDisplayName();
+        //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        pseudonymTextView.setText(model.getDisplayName());
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
